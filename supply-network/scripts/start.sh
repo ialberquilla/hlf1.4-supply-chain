@@ -1,13 +1,13 @@
 #!/bin/bash
 
 echo "Creating containers... "
-docker-compose -f docker-compose-cli.yaml up -d
+docker-compose -f ./supply-network/docker-compose-cli.yaml up -d
 echo 
 echo "Containers started" 
 echo 
 docker ps
 
-echo
+echo $ls 
 docker exec -it cli ./scripts/channel/createChannel.sh
 
 echo "Joining Manufacturer to channel..."
