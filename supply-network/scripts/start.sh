@@ -1,4 +1,5 @@
 #!/bin/bash
+export IMAGE_TAG=latest
 
 echo "Creating containers... "
 docker-compose -f ./supply-network/docker-compose-cli.yaml up -d

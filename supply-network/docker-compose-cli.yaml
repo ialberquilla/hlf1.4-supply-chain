@@ -11,6 +11,10 @@ volumes:
   peer0.manufacturer.example.com:
   peer0.deliverer.example.com:
   peer0.retailer.example.com:
+  caProducer:
+  caManufacturer:
+  caDeliverer:
+  caRetailer:
 
 networks:
   byfn:
@@ -56,8 +60,40 @@ services:
       service: peer0.retailer.example.com
     networks:
       - byfn
-
-
+      
+  caProducer:
+    container_name: caProducer
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: caProducer
+    networks:
+      - byfn
+      
+  caManufacturer:
+    container_name: caManufacturer
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: caManufacturer
+    networks:
+      - byfn
+      
+  caDeliverer:
+    container_name: caDeliverer
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: caDeliverer
+    networks:
+      - byfn
+      
+  caRetailer:
+    container_name: caRetailer
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: caRetailer
+    networks:
+      - byfn
+      
+      
   cli:
     container_name: cli
     image: hyperledger/fabric-tools:$IMAGE_TAG
@@ -90,5 +126,9 @@ services:
       - peer0.manufacturer.example.com
       - peer0.deliverer.example.com
       - peer0.retailer.example.com
+      - caProducer
+      - caManufacturer
+      - caDeliverer
+      - caRetailer
     networks:
       - byfn
