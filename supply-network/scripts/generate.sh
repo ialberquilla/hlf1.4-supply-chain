@@ -46,3 +46,7 @@ echo "Generating channel artifacts and genesis block..."
  cd $CURRENT_DIR
  cd ./supply-network/base
  sed $OPTS "s/CA4_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-base.yaml
+  
+  
+ cd $CURRENT_DIR
+ ./supply-network/scripts/ccp-generate.sh

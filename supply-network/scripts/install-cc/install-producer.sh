@@ -5,6 +5,6 @@ CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/c
 CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/producer.example.com/users/Admin@producer.example.com/msp
 CORE_PEER_ADDRESS=peer0.producer.example.com:7051
 CHANNEL_NAME=mychannel
-CORE_PEER_TLS_ENABLED=false
+CORE_PEER_TLS_ENABLED=true
 peer chaincode install -l node -n mycc -v 1.0 -p /opt/gopath/src/github.com/chaincode >&log.txt
 cat log.txt

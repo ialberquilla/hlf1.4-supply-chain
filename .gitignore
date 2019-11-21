@@ -1,1 +1,4 @@
 node_modules
+supply-network/channel-artifacts/
+supply-network/crypto-config/
+wallet/
