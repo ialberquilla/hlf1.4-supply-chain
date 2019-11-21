@@ -10,27 +10,27 @@ PeerOrgs:
     Domain: producer.example.com
     EnableNodeOUs: true
     Template:
-      Count: 1
+      Count: 2
     Users:
       Count: 1
   - Name: Manufacturer
     Domain: manufacturer.example.com
     EnableNodeOUs: true
     Template:
-      Count: 1
+      Count: 2
     Users:
       Count: 1
   - Name: Deliverer
     Domain: deliverer.example.com
     EnableNodeOUs: true
     Template:
-      Count: 1
+      Count: 2
     Users:
       Count: 1
   - Name: Retailer
     Domain: retailer.example.com
     EnableNodeOUs: true
     Template:
-      Count: 1
+      Count: 2
     Users:
       Count: 1
