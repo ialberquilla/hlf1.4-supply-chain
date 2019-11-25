@@ -33,6 +33,18 @@ class SypplyChain extends Contract {
         console.log(orderAsBytes.toString());
         return orderAsBytes.toString();
     }
+  
+     async createOrder(ctx, orderNumber, quantity, type) {
+        console.info('============= START : Create Order ===========');
+
+        const order = {
+            quantity,
+            type
+        };
+
+        await ctx.stub.putState(orderNumber, Buffer.from(JSON.stringify(order)));
+        console.info('============= END : Create Car ===========');
+    }
 
 }
 
