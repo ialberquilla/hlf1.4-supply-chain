@@ -1,50 +1,62 @@
-/*
- * SPDX-License-Identifier: Apache-2.0
- */
-
 'use strict';
 
 const { Contract } = require('fabric-contract-api');
 
 class SypplyChain extends Contract {
 
-    async initLedger(ctx) {
-        console.info('============= START : Initialize Ledger ===========');
-        const orders = [
-            {
-                quantity: '14',
-                type: 'Blue',
-            },
-        ];
 
-        for (let i = 0; i < orders.length; i++) {
-            orders[i].docType = 'order';
-            await ctx.stub.putState('ORDER' + i, Buffer.from(JSON.stringify(orders[i])));
-            console.info('Added <--> ', orders[i]);
-        }
-        console.info('============= END : Initialize Ledger ===========');
-    }
+  async addTuna(ctx, tuna) {
+    console.info('============= START : Add tuna ===========');
+    await ctx.stub.putState(JSON.parse(tuna).id.toString(), Buffer.from(tuna));
+    console.info('============= END : Add tuna ===========');
+    return ctx.stub.getTxID()
+  }
 
-    async queryOrder(ctx, orderNumber) {
-        const orderAsBytes = await ctx.stub.getState(orderNumber); // get the order from chaincode state
-        if (!orderAsBytes || orderAsBytes.length === 0) {
-            throw new Error(`${orderNumber} does not exist`);
-        }
-        console.log(orderAsBytes.toString());
-        return orderAsBytes.toString();
+  async addSushi(ctx, sushi) {
+    console.info('============= START : Add sushi ===========');
+    await ctx.stub.putState(JSON.parse(sushi.id).toString(), Buffer.from(sushi));
+    console.info('============= END : Add sushi ===========');
+  }
+
+  async querySushi(ctx, sushiId) {
+    console.info('============= START : Query sushi ===========');
+    const sushiAsBytes = await ctx.stub.getState(sushiId); 
+    if (!sushiAsBytes || sushiAsBytes.length === 0) {
+      throw new Error(`${sushiId} does not exist`);
     }
+    console.log(sushiAsBytes.toString());
+    console.info('============= END : Query sushi ===========');
+    return sushiAsBytes.toString();
+  }
   
-     async createOrder(ctx, orderNumber, quantity, type) {
-        console.info('============= START : Create Order ===========');
-
-        const order = {
-            quantity,
-            type
-        };
-
-        await ctx.stub.putState(orderNumber, Buffer.from(JSON.stringify(order)));
-        console.info('============= END : Create Car ===========');
+    async queryTuna(ctx, tunaId) {
+    console.info('============= START : Query sushi ===========');
+    const tunaAsBytes = await ctx.stub.getState(tunaId); 
+    if (!tunaAsBytes || tunaAsBytes.length === 0) {
+      throw new Error(`${tunaId} does not exist`);
     }
+    console.log(tunaAsBytes.toString());
+    console.info('============= END : Query sushi ===========');
+    return tunaAsBytes.toString();
+  }
+
+  async getHistorySushi(ctx, sushiId) {
+    console.info('============= START : Query sushi ===========');
+    let iterator = await ctx.stub.getHistoryForKey(sushiId);
+    let result = [];
+    let res = await iterator.next();
+    while (!res.done) {
+      if (res.value) {
+        console.info(`found state update with value: ${res.value.value.toString('utf8')}`);
+        const obj = JSON.parse(res.value.value.toString('utf8'));
+        result.push(obj);
+      }
+      res = await iterator.next();
+    }
+    await iterator.close();
+    return result;  
+  }
+
 
 }
 
