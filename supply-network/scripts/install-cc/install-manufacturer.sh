@@ -6,5 +6,5 @@ CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypt
 CORE_PEER_ADDRESS=peer0.manufacturer.example.com:9051
 CHANNEL_NAME=mychannel
 CORE_PEER_TLS_ENABLED=true
-peer chaincode install -l node -n supcc -v 1.0 -p /opt/gopath/src/github.com/chaincode >&log.txt
+peer chaincode install -l node -n supcc -v $1 -p /opt/gopath/src/github.com/chaincode >&log.txt
 cat log.txt

@@ -10,13 +10,17 @@
     "scripts": {
         "lint": "eslint .",
         "pretest": "npm run lint",
+        "start": "node src/server/server.js",
         "test": "nyc mocha --recursive"
     },
     "engineStrict": true,
     "author": "Iván Alberquilla",
     "license": "Apache-2.0",
     "dependencies": {
+        "arraybuffer-to-string": "^1.0.2",
+        "express": "^4.17.1",
         "fabric-ca-client": "~1.4.0",
+        "fabric-client": "^1.4.4",
         "fabric-network": "~1.4.0"
     },
     "devDependencies": {

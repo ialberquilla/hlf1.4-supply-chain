@@ -11,8 +11,6 @@ echo "Generating channel artifacts and genesis block..."
 ../bin/configtxgen -configPath ./supply-network -profile TwoOrgsOrdererGenesis -outputBlock ./supply-network/channel-artifacts/genesis.block
 ../bin/configtxgen -configPath ./supply-network -profile TwoOrgsChannel -outputCreateChannelTx ./supply-network/channel-artifacts/channel.tx -channelID mychannel
 
- echo "---------- Remplazando claves privada --------------"
- echo $IMAGE_TAG
  CURRENT_DIR=$PWD
  cd ./supply-network/base
  cp docker-compose-base-template.yaml docker-compose-base.yaml
