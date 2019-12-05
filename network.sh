@@ -18,4 +18,9 @@ if [ "$1" == "start" ]; then
     ./supply-network/scripts/register-users.sh
 elif [ "$1" == "stop" ]; then
     ./supply-network/scripts/stop.sh
+elif [ "$1" == "install" ]; then
+    cd ./chaincode
+    npm install
+    cd ..
+    npm install
 fi

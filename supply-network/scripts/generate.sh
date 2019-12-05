@@ -8,8 +8,8 @@ echo "Generating cryto material for peers..."
 [ -d ./supply-network/crypto-config ] || mkdir ./supply-network/crypto-config
 
 echo "Generating channel artifacts and genesis block..."
-../bin/configtxgen -configPath ./supply-network -profile TwoOrgsOrdererGenesis -outputBlock ./supply-network/channel-artifacts/genesis.block
-../bin/configtxgen -configPath ./supply-network -profile TwoOrgsChannel -outputCreateChannelTx ./supply-network/channel-artifacts/channel.tx -channelID mychannel
+../bin/configtxgen -configPath ./supply-network -profile SupplyOrdererGenesis -outputBlock ./supply-network/channel-artifacts/genesis.block
+../bin/configtxgen -configPath ./supply-network -profile SupplyChannel -outputCreateChannelTx ./supply-network/channel-artifacts/channel.tx -channelID mychannel
 
  CURRENT_DIR=$PWD
  cd ./supply-network/base

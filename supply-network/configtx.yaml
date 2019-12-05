@@ -156,7 +156,7 @@ Channel: &ChannelDefaults
 
 Profiles:
 
-    TwoOrgsOrdererGenesis:
+    SupplyOrdererGenesis:
         <<: *ChannelDefaults
         Orderer:
             <<: *OrdererDefaults
@@ -171,7 +171,7 @@ Profiles:
                     - *Manufacturer
                     - *Deliverer
                     - *Retailer
-    TwoOrgsChannel:
+    SupplyChannel:
         Consortium: SampleConsortium
         <<: *ChannelDefaults
         Application:
