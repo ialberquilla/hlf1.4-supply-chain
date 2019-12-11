@@ -121,3 +121,88 @@ curl --request GET \
   --url 'http://192.168.1.128:3000/api/getTuna/<TunaId>' \
   --header 'content-type: application/json' \ 
 ```
+
+
+**setPosition**
+----
+  Sets the positio (latitude and longitud) for the specified id, could be sushiId or TunaId
+
+* **URL**
+
+  `/api/getTuna/setPosition`
+
+* **Method:**
+  
+	`POST` 
+
+* **Data Params**
+"id":10004,
+"latitude":36,
+"longitude":350
+
+* **Success Response:**
+  
+ ``` 
+{	
+	status":"OK - Transaction has been submitted",
+	"txid":"7f485a8c3a3c7f982aed76e3b20a0ad0fb4cbf174fbeabc792969a30a3383499"
+}
+ ```
+ 
+* **Sample Call:**
+
+``` 
+curl --request POST \
+  --url http://192.168.1.128:3000/api/setPosition \
+  --header 'content-type: application/json' \
+  --data '{
+		    "id":10004,
+            "latitude":36,
+            "longitude":350
+			}'
+```
+
+**addSushi**
+----
+   Add new Sushi to the blockchain network with the related TunaId
+
+* **URL**
+
+  `/api/getTuna/addShushi`
+
+* **Method:**
+  
+	`POST` 
+
+* **Data Params**
+  --data '{
+			"id":"200001",
+            "latitude":"11112",
+            "longitude":"31100",
+            "type":"sashimi",
+            "tunaId":10004
+			}'
+
+* **Success Response:**
+  
+ ``` 
+{	
+	status":"OK - Transaction has been submitted",
+	"txid":"7f485a8c3a3c7f982aed76e3b20a0ad0fb4cbf174fbeabc792969a30a3383499"
+}
+ ```
+ 
+* **Sample Call:**
+
+``` 
+curl --request POST \
+  --url http://192.168.1.128:3000/api/addShushi \
+  --header 'content-type: application/json' \
+  --data '{
+			"id":"200001",
+            "latitude":"11112",
+            "longitude":"31100",
+            "type":"sashimi",
+            "tunaId":10004
+			}'
+```
