@@ -51,13 +51,15 @@ This will create the crypto material for all the orgs, start the network and reg
 
 * **Data Params**
 
-  ```{
+  ```
+  {
 	"id":integer,
 	"latitude":integer,
 	"longitude":integer,
 	"length":integer,
 	"weight":integer
-  } ``` 
+  }
+  ``` 
 
 * **Success Response:**
   
