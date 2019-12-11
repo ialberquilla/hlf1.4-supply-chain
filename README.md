@@ -61,14 +61,9 @@ This will create the crypto material for all the orgs, start the network and reg
 
 * **Success Response:**
   
-  {
-    "result": {
-        "id": 10005,
-        "latitude": 16,
-        "longitude": 300,
-        "length": 34,
-        "weight": 50
-    }
+{	
+	status":"OK - Transaction has been submitted",
+	"txid":"7f485a8c3a3c7f982aed76e3b20a0ad0fb4cbf174fbeabc792969a30a3383499"
 }
  
 * **Sample Call:**
@@ -83,3 +78,35 @@ This will create the crypto material for all the orgs, start the network and reg
 			"length":34,
 			"weight":50
 			}'
+            
+**getTuna**
+----
+  Get Tuna from the blockchain with the actual status
+
+* **URL**
+
+  /api/getTuna/:id
+
+* **Method:**
+  
+	`GET` 
+
+* **URL Params**
+    "id":integer,
+
+* **Success Response:**
+  
+  {
+    "result": {
+        "id": integer
+        "latitude": integer
+        "longitude": integer
+        "length": integer
+        "weight": integer
+    }
+ 
+* **Sample Call:**
+
+curl --request GET \
+  --url 'http://192.168.1.128:3000/api/getTuna/<TunaId>' \
+  --header 'content-type: application/json' \
