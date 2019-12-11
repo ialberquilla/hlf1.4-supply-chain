@@ -78,8 +78,8 @@ This will create the crypto material for all the orgs, start the network and reg
   --header 'content-type: application/json' \
   --data '{
 			"id":10001,
-			"latitude":"16",
-			"longitude":"300",
+			"latitude":"43.3623",
+			"longitude":"8.4115",
 			"length":34,
 			"weight":50
 		   }' 
@@ -125,7 +125,7 @@ curl --request GET \
 
 **setPosition**
 ----
-  Sets the positio (latitude and longitud) for the specified id, could be sushiId or TunaId
+  Sets the position (latitude and longitud) for the specified id, could be sushiId or TunaId
 
 * **URL**
 
@@ -138,8 +138,8 @@ curl --request GET \
 * **Data Params**
 ``` 
 "id":10001,
-"latitude":36,
-"longitude":350
+"latitude":"43.3623",
+"longitude":"8.4115"
 ``` 
 
 * **Success Response:**
@@ -158,9 +158,9 @@ curl --request POST \
   --url http://localhost:3000/api/setPosition \
   --header 'content-type: application/json' \
   --data '{
-		    "id":10004,
-            "latitude":36,
-            "longitude":350
+            "id":10001,
+            "latitude":"43.3623",
+            "longitude":"8.4115"
 			}'
 ```
 
@@ -179,7 +179,7 @@ curl --request POST \
 * **Data Params**
  ```   
   --data '{
-			"id":integer,
+            "id":integer,
             "latitude":string,
             "longitude":string,
             "type":string,
@@ -203,8 +203,8 @@ curl --request POST \
   --header 'content-type: application/json' \
   --data '{
 			"id":200001,
-            "latitude":"11112",
-            "longitude":"31100",
+            "latitude":"42.5987",
+            "longitude":"5.5671",
             "type":"sashimi",
             "tunaId":10001
 			}'
@@ -230,9 +230,9 @@ curl --request POST \
  ``` 
   {
     "result": {
-        "id":"200001",
-            "latitude":"11112",
-            "longitude":"31100",
+            "id":"200001",
+            "latitude":"42.5987",
+            "longitude":"5.5671",
             "type":"sashimi",
             "tunaId":10001
 			}'
@@ -271,15 +271,15 @@ curl --request GET \
     "historySushi": [
         {
             "id": "200001",
-            "latitude": "36",
-            "longitude": "350",
+            "latitude":"42.5987",
+            "longitude":"5.5671",
             "type": "sashimi",
             "tunaId": 10004
         },
         {
             "id": "200001",
-            "latitude": "11112",
-            "longitude": "31100",
+            "latitude":"43.3623",
+			"longitude":"8.4115",
             "type": "sashimi",
             "tunaId": 10004
         }
@@ -287,8 +287,8 @@ curl --request GET \
     "historyTuna": [
         {
             "id": "10004",
-            "latitude": "16",
-            "longitude": "300",
+            "latitude":"43.3623",
+			"longitude":"8.4115",
             "length": 34,
             "weight": 50
         }
