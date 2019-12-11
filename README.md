@@ -54,8 +54,8 @@ This will create the crypto material for all the orgs, start the network and reg
 ```
 {
   "id":integer,
-  "latitude":integer,
-  "longitude":integer,
+  "latitude":string,
+  "longitude":string,
   "length":integer,
   "weight":integer
 }
@@ -77,7 +77,7 @@ This will create the crypto material for all the orgs, start the network and reg
   --url http://localhost:3000/api/addTuna \
   --header 'content-type: application/json' \
   --data '{
-			"id":"10004",
+			"id":10001,
 			"latitude":"16",
 			"longitude":"300",
 			"length":34,
@@ -106,8 +106,8 @@ This will create the crypto material for all the orgs, start the network and reg
  {
     "result": {
         "id": integer
-        "latitude": integer
-        "longitude": integer
+        "latitude": string
+        "longitude": string
         "length": integer
         "weight": integer
     } 
@@ -118,7 +118,7 @@ This will create the crypto material for all the orgs, start the network and reg
 
 ``` 
 curl --request GET \
-  --url 'http://192.168.1.128:3000/api/getTuna/<TunaId>' \
+  --url 'http://localhost:3000/api/getTuna/<TunaId>' \
   --header 'content-type: application/json' \ 
 ```
 
@@ -136,9 +136,11 @@ curl --request GET \
 	`POST` 
 
 * **Data Params**
-"id":10004,
+``` 
+"id":10001,
 "latitude":36,
 "longitude":350
+``` 
 
 * **Success Response:**
   
@@ -153,7 +155,7 @@ curl --request GET \
 
 ``` 
 curl --request POST \
-  --url http://192.168.1.128:3000/api/setPosition \
+  --url http://localhost:3000/api/setPosition \
   --header 'content-type: application/json' \
   --data '{
 		    "id":10004,
@@ -175,14 +177,15 @@ curl --request POST \
 	`POST` 
 
 * **Data Params**
+ ```   
   --data '{
-			"id":"200001",
-            "latitude":"11112",
-            "longitude":"31100",
-            "type":"sashimi",
-            "tunaId":10004
+			"id":integer,
+            "latitude":string,
+            "longitude":string,
+            "type":string,
+            "tunaId":integer
 			}'
-
+ ``` 
 * **Success Response:**
   
  ``` 
@@ -196,13 +199,107 @@ curl --request POST \
 
 ``` 
 curl --request POST \
-  --url http://192.168.1.128:3000/api/addShushi \
+  --url http://localhost:3000/api/addShushi \
   --header 'content-type: application/json' \
   --data '{
-			"id":"200001",
+			"id":200001,
             "latitude":"11112",
             "longitude":"31100",
             "type":"sashimi",
-            "tunaId":10004
+            "tunaId":10001
 			}'
+```
+
+**getSushi**
+----
+  Get sushi from the blockchain with the actual status
+
+* **URL**
+
+  `/api/getSushi/:id`
+
+* **Method:**
+  
+	`GET` 
+
+* **URL Params**
+    `"id":integer`
+
+* **Success Response:**
+  
+ ``` 
+  {
+    "result": {
+        "id":"200001",
+            "latitude":"11112",
+            "longitude":"31100",
+            "type":"sashimi",
+            "tunaId":10001
+			}'
+}
+ ```
+ 
+* **Sample Call:**
+ 
+``` 
+curl --request GET \
+  --url 'http://localhost:3000/api/getSushi/<SushiId>' \
+  --header 'content-type: application/json' \
+```
+
+
+
+**getSushiHistory**
+----
+  Get sushi history, from the TunaId that started the supply-chain, getting all the history positions, until the sushi is delivered, with the sushi history too
+
+* **URL**
+
+  `/api/getHistorySushi/:id`
+
+* **Method:**
+  
+	`GET` 
+
+* **URL Params**
+    `"id":integer`
+
+* **Success Response:**
+  
+ ``` 
+{
+    "historySushi": [
+        {
+            "id": "200001",
+            "latitude": "36",
+            "longitude": "350",
+            "type": "sashimi",
+            "tunaId": 10004
+        },
+        {
+            "id": "200001",
+            "latitude": "11112",
+            "longitude": "31100",
+            "type": "sashimi",
+            "tunaId": 10004
+        }
+    ],
+    "historyTuna": [
+        {
+            "id": "10004",
+            "latitude": "16",
+            "longitude": "300",
+            "length": 34,
+            "weight": 50
+        }
+    ]
+}
+ ```
+ 
+* **Sample Call:**
+ 
+ ``` 
+curl --request GET \
+  --url 'http://localhost:3000/api/getHistorySushi/<SushiId>' \
+  --header 'content-type: application/json' \
 ```
