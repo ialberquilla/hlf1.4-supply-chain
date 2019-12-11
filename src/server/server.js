@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({
 app.post('/api/addTuna', async function (req, res) {
 
   try {
-    const contract = await fabricNetwork.connectNetwork('connection-producer.json', 'wallet');
+    const contract = await fabricNetwork.connectNetwork('connection-producer.json', 'wallet/wallet-producer');
     let tuna = {
       id: req.body.id,
       latitude: req.body.latitude,
@@ -36,10 +36,10 @@ app.post('/api/addTuna', async function (req, res) {
 
 app.get('/api/getTuna/:id', async function (req, res) {
   try {
-    const contract = await fabricNetwork.connectNetwork('connection-producer.json', 'wallet');
+    const contract = await fabricNetwork.connectNetwork('connection-retailer.json', 'wallet/wallet-retailer');
     const result = await contract.evaluateTransaction('queryTuna', req.params.id.toString());
     let response = JSON.parse(result.toString());
-    res.json(response);
+    res.json({result:response});
   } catch (error) {
     console.error(`Failed to evaluate transaction: ${error}`);
     res.status(500).json({
@@ -52,7 +52,7 @@ app.get('/api/getTuna/:id', async function (req, res) {
 app.post('/api/setPosition', async function (req, res) {
 
   try {
-    const contract = await fabricNetwork.connectNetwork('connection-deliverer.json', 'wallet-de');
+    const contract = await fabricNetwork.connectNetwork('connection-deliverer.json', 'wallet/wallet-deliverer');
     let tx = await contract.submitTransaction('setPosition', req.body.id.toString(), req.body.latitude.toString(), req.body.longitude.toString());
     res.json({
       status: 'OK - Transaction has been submitted',
@@ -70,7 +70,7 @@ app.post('/api/setPosition', async function (req, res) {
 
 app.get('/api/getHistorySushi/:id', async function (req, res) {
   try {
-    const contract = await fabricNetwork.connectNetwork('connection-producer.json', 'wallet');
+    const contract = await fabricNetwork.connectNetwork('connection-producer.json', 'wallet/wallet-producer');
     const historySushi = JSON.parse((await contract.evaluateTransaction('getHistory', req.params.id.toString())).toString());
     const actualSushi = JSON.parse((await contract.evaluateTransaction('querySushi', req.params.id.toString())).toString());
     historySushi.unshift(actualSushi);
@@ -89,9 +89,9 @@ app.get('/api/getHistorySushi/:id', async function (req, res) {
   }
 })
 
-app.get('/api/queryShushi/:id', async function (req, res) {
+app.get('/api/getShushi/:id', async function (req, res) {
   try {
-    const contract = await fabricNetwork.connectNetwork('connection-producer.json', 'wallet-pr');
+    const contract = await fabricNetwork.connectNetwork('connection-retailer.json', 'wallet/wallet-retailer');
     const result = await contract.evaluateTransaction('querySushi', req.params.id.toString());
     let response = JSON.parse(result.toString());
     res.json(response);
@@ -106,7 +106,7 @@ app.get('/api/queryShushi/:id', async function (req, res) {
 
 app.post('/api/addShushi', async function (req, res) {
   try {
-    const contract = await fabricNetwork.connectNetwork('connection-manufacturer.json', 'wallet-ma');
+    const contract = await fabricNetwork.connectNetwork('connection-manufacturer.json', 'wallet/wallet-manufacturer');
     let sushi = {
       id: req.body.id,
       latitude: req.body.latitude,
