@@ -68,7 +68,7 @@ This will create the crypto material for all the orgs, start the network and reg
  
 * **Sample Call:**
 
- ` curl --request POST \
+ ``` curl --request POST \
   --url http://localhost:3000/api/addTuna \
   --header 'content-type: application/json' \
   --data '{
@@ -77,7 +77,7 @@ This will create the crypto material for all the orgs, start the network and reg
 			"longitude":"300",
 			"length":34,
 			"weight":50
-			}'`
+			}'```
             
 **getTuna**
 ----
