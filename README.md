@@ -52,13 +52,11 @@ This will create the crypto material for all the orgs, start the network and reg
 * **Data Params**
 
 ```
-{
   "id":integer,
   "latitude":string,
   "longitude":string,
   "length":integer,
   "weight":integer
-}
  ``` 
 
 * **Success Response:**
@@ -178,13 +176,11 @@ curl --request POST \
 
 * **Data Params**
  ```   
-  --data '{
-            "id":integer,
-            "latitude":string,
-            "longitude":string,
-            "type":string,
-            "tunaId":integer
-			}'
+"id":integer,
+"latitude":string,
+"longitude":string,
+"type":string,
+"tunaId":integer
  ``` 
 * **Success Response:**
   
@@ -279,7 +275,7 @@ curl --request GET \
         {
             "id": "200001",
             "latitude":"43.3623",
-			"longitude":"8.4115",
+            "longitude":"8.4115",
             "type": "sashimi",
             "tunaId": 10004
         }
@@ -288,7 +284,7 @@ curl --request GET \
         {
             "id": "10004",
             "latitude":"43.3623",
-			"longitude":"8.4115",
+            "longitude":"8.4115",
             "length": 34,
             "weight": 50
         }
