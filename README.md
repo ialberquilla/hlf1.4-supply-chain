@@ -51,15 +51,15 @@ This will create the crypto material for all the orgs, start the network and reg
 
 * **Data Params**
 
-  ```
-  {
-	"id":integer,
-	"latitude":integer,
-	"longitude":integer,
-	"length":integer,
-	"weight":integer
-  }
-  ``` 
+```
+{
+  "id":integer,
+  "latitude":integer,
+  "longitude":integer,
+  "length":integer,
+  "weight":integer
+}
+ ``` 
 
 * **Success Response:**
   
@@ -82,7 +82,7 @@ This will create the crypto material for all the orgs, start the network and reg
 			"longitude":"300",
 			"length":34,
 			"weight":50
-			}' 
+		   }' 
  ```
             
 **getTuna**
@@ -111,6 +111,7 @@ This will create the crypto material for all the orgs, start the network and reg
         "length": integer
         "weight": integer
     } 
+ }
  ```
  
 * **Sample Call:**
