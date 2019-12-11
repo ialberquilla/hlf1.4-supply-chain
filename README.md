@@ -34,3 +34,52 @@ This will create the crypto material for all the orgs, start the network and reg
 
 # Stop the network
 `./network.sh stop`
+
+
+# API Doc
+**AddTuna**
+----
+  Add new Tuna to the blockchain network
+
+* **URL**
+
+  /api/addTuna
+
+* **Method:**
+  
+	`POST` 
+
+* **Data Params**
+
+  {
+	"id":integer,
+	"latitude":integer,
+	"longitude":integer,
+	"length":integer,
+	"weight":integer
+  }
+
+* **Success Response:**
+  
+  {
+    "result": {
+        "id": 10005,
+        "latitude": 16,
+        "longitude": 300,
+        "length": 34,
+        "weight": 50
+    }
+}
+ 
+* **Sample Call:**
+
+  curl --request POST \
+  --url http://localhost:3000/api/addTuna \
+  --header 'content-type: application/json' \
+  --data '{
+			"id":"10004",
+			"latitude":"16",
+			"longitude":"300",
+			"length":34,
+			"weight":50
+			}'
