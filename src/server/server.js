@@ -20,7 +20,7 @@ app.post('/api/addTuna', async function (req, res) {
       length: req.body.length,
       weight: req.body.weight
     }
-    let tx = await contract.submitTransaction('addTuna', JSON.stringify(tuna));
+    let tx = await contract.submitTransaction('addAsset', JSON.stringify(tuna));
     res.json({
       status: 'OK - Transaction has been submitted',
       txid: tx.toString()
@@ -37,7 +37,7 @@ app.post('/api/addTuna', async function (req, res) {
 app.get('/api/getTuna/:id', async function (req, res) {
   try {
     const contract = await fabricNetwork.connectNetwork('connection-retailer.json', 'wallet/wallet-retailer');
-    const result = await contract.evaluateTransaction('queryTuna', req.params.id.toString());
+    const result = await contract.evaluateTransaction('queryAsset', req.params.id.toString());
     let response = JSON.parse(result.toString());
     res.json({result:response});
   } catch (error) {
@@ -92,7 +92,7 @@ app.get('/api/getHistorySushi/:id', async function (req, res) {
 app.get('/api/getShushi/:id', async function (req, res) {
   try {
     const contract = await fabricNetwork.connectNetwork('connection-retailer.json', 'wallet/wallet-retailer');
-    const result = await contract.evaluateTransaction('querySushi', req.params.id.toString());
+    const result = await contract.evaluateTransaction('queryAsset', req.params.id.toString());
     let response = JSON.parse(result.toString());
     res.json(response);
   } catch (error) {
@@ -114,7 +114,7 @@ app.post('/api/addShushi', async function (req, res) {
       type: req.body.type,
       tunaId: req.body.tunaId
     }
-    let tx = await contract.submitTransaction('addSushi', JSON.stringify(sushi));
+    let tx = await contract.submitTransaction('addAsset', JSON.stringify(sushi));
     res.json({
       status: 'OK - Transaction has been submitted',
       txid: tx.toString()

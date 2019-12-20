@@ -5,43 +5,24 @@ const { Contract } = require('fabric-contract-api');
 class SypplyChain extends Contract {
 
 
-  async addTuna(ctx, tuna) {
-    console.info('============= START : Add tuna ===========');
-    await ctx.stub.putState(JSON.parse(tuna).id.toString(), Buffer.from(tuna));
-    console.info('============= END : Add tuna ===========');
+  async addAsset(ctx, asset) {
+    console.info('============= START : Add asset ===========');
+    await ctx.stub.putState(JSON.parse(asset).id.toString(), Buffer.from(asset));
+    console.info('============= END : Add asset ===========');
     return ctx.stub.getTxID()
   }
 
-  async addSushi(ctx, sushi) {
-    console.info('============= START : Add sushi ===========');
-    await ctx.stub.putState(JSON.parse(sushi).id.toString(), Buffer.from(sushi));
-    console.info('============= END : Add sushi ===========');
-    return ctx.stub.getTxID()
-  }
-
-  async querySushi(ctx, sushiId) {
-    console.info('============= START : Query sushi ===========');
-    const sushiAsBytes = await ctx.stub.getState(sushiId); 
-    if (!sushiAsBytes || sushiAsBytes.length === 0) {
-      throw new Error(`${sushiId} does not exist`);
+  async queryAsset(ctx, assetId) {
+    console.info('============= START : Query asset ===========');
+    const assetAsBytes = await ctx.stub.getState(assetId); 
+    if (!assetAsBytes || assetAsBytes.length === 0) {
+      throw new Error(`${assetId} does not exist`);
     }
-    console.log(sushiAsBytes.toString());
-    console.info('============= END : Query sushi ===========');
-    return sushiAsBytes.toString();
+    console.log(sassetAsBytes.toString());
+    console.info('============= END : Query asset ===========');
+    return assetAsBytes.toString();
   }
   
-    async queryTuna(ctx, tunaId) {
-    console.info('============= START : Query sushi ===========');
-    const tunaAsBytes = await ctx.stub.getState(tunaId); 
-    if (!tunaAsBytes || tunaAsBytes.length === 0) {
-      throw new Error(`${tunaId} does not exist`);
-    }
-    console.log(tunaAsBytes.toString());
-    console.info('============= END : Query sushi ===========');
-    return tunaAsBytes.toString();
-  }
-
-
   async setPosition(ctx, id, latitude, longitude) {
     console.info('============= START : Set position ===========');
     const keyAsBytes = await ctx.stub.getState(id); 
