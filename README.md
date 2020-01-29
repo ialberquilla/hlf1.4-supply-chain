@@ -1,6 +1,10 @@
 # hlf1.4-supply-chain
 Supply chain proof of concept in Hyperledger Fabric. Network with four companies and a specific chaincode exposed as rest API
 
+More info in Medium tutorials
+* [English](https://medium.com/coinmonks/creating-a-hyperledger-fabric-network-from-scratch-part-i-designing-the-network-23d803bbdb61) 
+* [Spanish](https://medium.com/@ialberquilla/creando-una-red-hyperledger-fabric-desde-cero-96314117e633)
+
 # Installation instructions
 
 1. Install Hyperledger fabric dependencies:
