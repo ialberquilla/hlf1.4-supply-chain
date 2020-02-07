@@ -36,8 +36,6 @@ async function main() {
         const contract = network.getContract('supcc');
 
         // Submit the specified transaction.
-        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         let tuna = {id:2,location:'22', size:'33'}
         let result = await contract.submitTransaction('addTuna',JSON.stringify(tuna));
         console.log('Transaction has been submitted');
