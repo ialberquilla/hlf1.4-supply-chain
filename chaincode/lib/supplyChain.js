@@ -2,7 +2,7 @@
 
 const { Contract } = require('fabric-contract-api');
 
-class SypplyChain extends Contract {
+class SupplyChain extends Contract {
 
 
   async addAsset(ctx, asset) {
@@ -18,7 +18,7 @@ class SypplyChain extends Contract {
     if (!assetAsBytes || assetAsBytes.length === 0) {
       throw new Error(`${assetId} does not exist`);
     }
-    console.log(sassetAsBytes.toString());
+    console.log(assetAsBytes.toString());
     console.info('============= END : Query asset ===========');
     return assetAsBytes.toString();
   }
@@ -58,4 +58,4 @@ class SypplyChain extends Contract {
 
 }
 
-module.exports = SypplyChain;
+module.exports = SupplyChain;
