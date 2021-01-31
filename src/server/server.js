@@ -89,7 +89,7 @@ app.get('/api/getHistorySushi/:id', async function (req, res) {
   }
 })
 
-app.get('/api/getShushi/:id', async function (req, res) {
+app.get('/api/getSushi/:id', async function (req, res) {
   try {
     const contract = await fabricNetwork.connectNetwork('connection-retailer.json', 'wallet/wallet-retailer');
     const result = await contract.evaluateTransaction('queryAsset', req.params.id.toString());
@@ -104,7 +104,7 @@ app.get('/api/getShushi/:id', async function (req, res) {
 })
 
 
-app.post('/api/addShushi', async function (req, res) {
+app.post('/api/addSushi', async function (req, res) {
   try {
     const contract = await fabricNetwork.connectNetwork('connection-manufacturer.json', 'wallet/wallet-manufacturer');
     let sushi = {

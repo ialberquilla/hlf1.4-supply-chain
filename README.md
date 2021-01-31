@@ -172,7 +172,7 @@ curl --request POST \
 
 * **URL**
 
-  `/api/getTuna/addShushi`
+  `/api/getTuna/addSushi`
 
 * **Method:**
   
@@ -199,7 +199,7 @@ curl --request POST \
 
 ``` 
 curl --request POST \
-  --url http://localhost:3000/api/addShushi \
+  --url http://localhost:3000/api/addSushi \
   --header 'content-type: application/json' \
   --data '{
 			"id":200001,
