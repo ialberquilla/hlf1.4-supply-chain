@@ -303,3 +303,6 @@ curl --request GET \
   --url 'http://localhost:3000/api/getHistorySushi/<SushiId>' \
   --header 'content-type: application/json' \
 ```
+```
+ sed -i -e 's/\r$//' network.sh
+```
