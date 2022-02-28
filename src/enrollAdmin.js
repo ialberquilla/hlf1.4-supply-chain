@@ -5,7 +5,8 @@
 'use strict';
 
 const FabricCAServices = require('fabric-ca-client');
-const { FileSystemWallet, X509WalletMixin } = require('fabric-network');
+//const { FileSystemWallet, X509WalletMixin } = require('fabric-network');
+const { Wallets, X509WalletMixin } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
 
@@ -24,7 +25,8 @@ async function main() {
 
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), `wallet/wallet-${org}`);
-        const wallet = new FileSystemWallet(walletPath);
+        //const wallet = new FileSystemWallet(walletPath);
+        const wallet = await Wallets.newFileSystemWallet(walletPath);
         console.log(`Wallet path: ${walletPath}`);
 
         // Check to see if we've already enrolled the admin user.

@@ -5,7 +5,8 @@ echo "Creating containers... "
 
 # TODO This approach is hacky; instead, identify where hyperledger/fabric-ccenv is pulled and update the tag to 1.4.3
 docker pull hyperledger/fabric-ccenv:1.4.3
-docker tag hyperledger/fabric-ccenv:1.4.3 hyperledger/fabric-ccenv:latest
+#docker pull hyperledger/fabric-ccenv:2.4
+#docker tag hyperledger/fabric-ccenv:1.4.3 hyperledger/fabric-ccenv:latest
 
 docker-compose -f ./supply-network/docker-compose-cli.yaml up -d
 echo 
