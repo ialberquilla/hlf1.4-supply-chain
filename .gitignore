@@ -1,4 +1,8 @@
 node_modules
+supply-network/bin/
 supply-network/channel-artifacts/
 supply-network/crypto-config/
+supply-network/organizations/
+log.txt
 wallet/
+basic.tar.gz

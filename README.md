@@ -1,4 +1,10 @@
 # hlf1.4-supply-chain
+
+```
+PATH=$PATH:/$(pwd)/supply-network/bin
+chmod +x supply-network/bin/*
+```
+
 Supply chain proof of concept in Hyperledger Fabric. Network with four companies and a specific chaincode exposed as rest API
 
 More info in Medium tutorials

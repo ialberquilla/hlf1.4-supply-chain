@@ -1,5 +1,5 @@
 #!/bin/bash
-export IMAGE_TAG=1.4.3
+export IMAGE_TAG=latest
 
 echo "Creating containers... "
 

@@ -1,15 +1,19 @@
 #!/bin/bash
+# Set environment variable where configtx.yaml and other config file related for hyperleder are located
+export FABRIC_CFG_PATH=$(pwd)/supply-network/config
 export IMAGE_TAG=latest
+export CHANNEL_NAME=mychannel
 echo "Generating cryto material for peers..."
 [ -d ./supply-network/channel-artifacts ] || mkdir ./supply-network/channel-artifacts
 
-cryptogen generate --config=./supply-network/crypto-config.yaml --output="./supply-network/crypto-config"
+cryptogen generate --config=./supply-network/config/crypto-config.yaml --output="./supply-network/crypto-config"
 
-[ -d ./supply-network/crypto-config ] || mkdir ./supply-network/crypto-config
-
-echo "Generating channel artifacts and genesis block..."
-configtxgen -configPath ./supply-network -profile SupplyOrdererGenesis -channelID mychannel -outputBlock ./supply-network/channel-artifacts/genesis.block
-configtxgen -configPath ./supply-network -profile SupplyChannel -outputCreateChannelTx ./supply-network/channel-artifacts/channel.tx -channelID mychannel
+echo "Generating genesis block..."
+configtxgen -profile SupplyOrdererGenesis -channelID $CHANNEL_NAME -outputBlock ./supply-network/channel-artifacts/${CHANNEL_NAME}.block
+echo "Creating Channel"
+#osnadmin channel join --channelID $CHANNEL_NAME --config-block ./channel-artifacts/${CHANNEL_NAME}.block -o localhost:7053 --ca-file "$ORDERER_CA" --client-cert "$ORDERER_ADMIN_TLS_SIGN_CERT" --client-key "$ORDERER_ADMIN_TLS_PRIVATE_KEY"
+#configtxgen -profile SupplyChannel -outputCreateChannelTx ./supply-network/channel-artifacts/channel.tx -channelID mychannel
+configtxgen -profile SupplyChannel -outputCreateChannelTx ./supply-network/channel-artifacts/${}.tx -channelID channel1
 
 CURRENT_DIR=$PWD
 cd ./supply-network/base
