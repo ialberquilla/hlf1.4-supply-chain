@@ -3,7 +3,7 @@ source scripts/envVar.sh
 source scripts/utils.sh
 source scripts/ccutils.sh
 # Chaincode variable definitions
-export DOCKER_SOCK=/host/var/run/docker.sock
+export DOCKER_SOCK=/var/run/docker.sock
 export IMAGE_TAG=latest
 export FABRIC_CFG_PATH=${PWD}/config
 
@@ -22,9 +22,10 @@ declare MAX_RETRY=5
 declare VERBOSE=true
 
 if [ "$1" == "start" ]; then
-    [ ! -d organizations ] && mkdir organizations
-    [ ! -d organizations/fabric-ca ] && cp -r config/fabric-ca organizations
-    [ ! -d organizations/ordererOrganizations/example.com/msp ] && mkdir -p organizations/ordererOrganizations/example.com/msp
+
+    createDir "organizations"
+    createDir "organizations/ordererOrganizations/example.com/msp"
+    copyDir "config/fabric-ca" "organizations"
 
     docker compose -f ./compose/docker-compose-ca.yaml up -d
     waitForFileCreated "organizations/fabric-ca/org1/tls-cert.pem"
@@ -43,24 +44,7 @@ if [ "$1" == "start" ]; then
     infoln "Creating Channel"
     ./scripts/createChannel.sh $CHANNEL_NAME
     infoln "Deploying chaincode"
-
-elif [ "$1" == "starts" ]; then
-    echo "***********************************"
-    echo "       Generating artifacts        "
-    echo "***********************************"
-    ./scripts/generate.sh
-    echo "***********************************"
-    echo "       Starting network            "
-    echo "***********************************"
-    ./scripts/start.sh
-    echo "***********************************"
-    echo "       Installing chaincodes       "
-    echo "***********************************"
-    ./scripts/install-cc.sh
-    echo "***********************************"
-    echo "       Registering users           "
-    echo "***********************************"
-    ./scripts/register-users.sh
+    deploy
 elif [ "$1" == "stop" ]; then
     ./scripts/stop.sh
 elif [ "$1" == "install" ]; then

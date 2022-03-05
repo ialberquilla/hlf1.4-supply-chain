@@ -5,6 +5,7 @@ supply-network/bin/
 supply-network/channel-artifacts/
 supply-network/crypto-config/
 supply-network/organizations/
-log.txt
+supply-network/log.txt
+supply-network/basic.tar.gz
 wallet/
-basic.tar.gz./
+

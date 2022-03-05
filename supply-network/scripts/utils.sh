@@ -189,10 +189,24 @@ function waitForDirCreated(){
         infoln "Waiting for dir  $1..."
         sleep 1
       else
-        infolen "Done."
+        infoln "Done."
         break
       fi
     done
+}
+
+function createDir(){
+  [ ! -d $1 ] && mkdir -p $1 && successln "Directory $1 created." || warnln "Directory $1 Already exists"
+}
+
+
+function removeDir(){
+  [ ! -d $1 ] && rm -rf $1 "Directory $1 removed." || warnln "Directory $1 Does not exists"
+}
+
+function copyDir(){
+  full_dir=$2/${1##*/}
+  [ ! -d $full_dir ] && infoln "Copying dir $1 into $2" && cp -r $1 $2 && successln "Done" || warnln "Directory $full_dir already exists" 
 }
 
 

@@ -202,6 +202,7 @@ function deploy(){
 
   ## query whether the chaincode is installed
   queryInstalled 1
+  queryInstalled 2
 
   ## approve the definition for org1
   approveForMyOrg 1
