@@ -1,6 +1,6 @@
 #!/bin/bash
-. scripts/envVar.sh
-. scripts/utils.sh
+source scripts/envVar.sh
+source scripts/utils.sh
 
 CHANNEL_NAME="$1"
 DELAY="$2"

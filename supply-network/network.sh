@@ -1,27 +1,108 @@
 #!/bin/bash
 source scripts/envVar.sh
 source scripts/utils.sh
-source scripts/ccutils.sh
 # Chaincode variable definitions
 export DOCKER_SOCK=/var/run/docker.sock
 export IMAGE_TAG=latest
 export FABRIC_CFG_PATH=${PWD}/config
-
 declare CHANNEL_NAME="mychannel"
-declare CC_NAME="basic"
-declare CC_SRC_PATH=../chaincode/go/chaincode-go
-declare CC_RUNTIME_LANGUAGE="go"
-declare CC_SRC_LANGUAGE="go"
-declare CC_VERSION="1.0"
-declare CC_SEQUENCE="1"
-declare CC_INIT_FCN="NA"
-declare CC_END_POLICY="NA"
-declare CC_COLL_CONFIG="NA"
-declare CLI_DELAY="3"
-declare MAX_RETRY=5
-declare VERBOSE=true
 
-if [ "$1" == "start" ]; then
+# Parse commandline args
+## Parse mode
+if [[ $# -lt 1 ]] ; then
+  printHelp
+  exit 0
+else
+  MODE=$1
+  shift
+fi
+
+# parse a createChannel subcommand if used
+if [[ $# -ge 1 ]] ; then
+  key="$1"
+  if [[ "$key" == "createChannel" ]]; then
+      export MODE="createChannel"
+      shift
+  fi
+fi
+
+# parse flags
+while [[ $# -ge 1 ]] ; do
+    key="$1"
+    case $key in
+    -h )
+        printHelp $MODE
+        exit 0
+        ;;
+    -c )
+        CHANNEL_NAME="$2"
+        shift
+        ;;
+    -ca )
+        CRYPTO="Certificate Authorities"
+        ;;
+    -r )
+        MAX_RETRY="$2"
+        shift
+        ;;
+    -d )
+        CLI_DELAY="$2"
+        shift
+        ;;
+    -s )
+        DATABASE="$2"
+        shift
+        ;;
+    -ccl )
+        CC_SRC_LANGUAGE="$2"
+        shift
+        ;;
+    -ccn )
+        CC_NAME="$2"
+        shift
+        ;;
+    -ccv )
+        CC_VERSION="$2"
+        shift
+        ;;
+    -ccs )
+        CC_SEQUENCE="$2"
+        shift
+        ;;
+    -ccp )
+        CC_SRC_PATH="$2"
+        shift
+        ;;
+    -ccep )
+        CC_END_POLICY="$2"
+        shift
+        ;;
+    -cccg )
+        CC_COLL_CONFIG="$2"
+        shift
+        ;;
+    -cci )
+        CC_INIT_FCN="$2"
+        shift
+        ;;
+    -ccaasdocker )
+        CCAAS_DOCKER_RUN="$2"
+        shift
+        ;;
+    -verbose )
+        VERBOSE=true
+        ;;
+    * )
+        errorln "Unknown flag: $key"
+        printHelp
+        exit 1
+        ;;
+    esac
+    shift
+done
+
+
+if [ "$MODE" == "start" ]; then
 
     createDir "organizations"
     createDir "organizations/ordererOrganizations/example.com/msp"
@@ -43,11 +124,14 @@ if [ "$1" == "start" ]; then
     ./scripts/ccp-generate.sh
     infoln "Creating Channel"
     ./scripts/createChannel.sh $CHANNEL_NAME
+elif [ "$MODE" == "deployCC" ]; then
     infoln "Deploying chaincode"
-    deploy
-elif [ "$1" == "stop" ]; then
+    #example 
+    #./network.sh deployCC -ccn erc1155 -ccp ../token-erc-1155/chaincode-go/ -ccl go
+    ./scripts/deployCC.sh $CHANNEL_NAME $CC_NAME $CC_SRC_PATH $CC_SRC_LANGUAGE $CC_VERSION $CC_SEQUENCE $CC_INIT_FCN $CC_END_POLICY $CC_COLL_CONFIG $CLI_DELAY $MAX_RETRY $VERBOSE
+elif [ "$MODE" == "stop" ]; then
     ./scripts/stop.sh
-elif [ "$1" == "install" ]; then
+elif [ "$MODE" == "install" ]; then
     cd ./chaincode
     npm install
     cd ..

@@ -1,22 +1,5 @@
 #!/bin/bash
-function compile(){
-    CC_RUNTIME_LANGUAGE=golang
-    infoln "Vendoring Go dependencies at $CC_SRC_PATH"
-    pushd $CC_SRC_PATH
-    GO111MODULE=on go mod vendor
-    popd
-    successln "Finished vendoring Go dependencies"
-}
 
-function packageChaincode() {
-  set -x
-  peer lifecycle chaincode package ${CC_NAME}.tar.gz --path ${CC_SRC_PATH} --lang ${CC_RUNTIME_LANGUAGE} --label ${CC_NAME}_${CC_VERSION} >&log.txt
-  res=$?
-  { set +x; } 2>/dev/null
-  cat log.txt
-  verifyResult $res "Chaincode packaging has failed"
-  successln "Chaincode is packaged"
-}
 
 # installChaincode PEER ORG
 function installChaincode() {
@@ -136,29 +119,23 @@ function queryCommitted() {
   fi
 }
 
-## Invoke the chaincode - this does require that the chaincode have the 'initLedger'
-## method defined
 function chaincodeInvokeInit() {
-  if [ "$CC_INIT_FCN" = "NA" ]; then
-    infoln "Chaincode initialization is not required"
-  else
-    parsePeerConnectionParameters $@
-    res=$?
-    verifyResult $res "Invoke transaction failed on channel '$CHANNEL_NAME' due to uneven number of peer and org parameters "
+  parsePeerConnectionParameters $@
+  res=$?
+  verifyResult $res "Invoke transaction failed on channel '$CHANNEL_NAME' due to uneven number of peer and org parameters "
 
-    # while 'peer chaincode' command can get the orderer endpoint from the
-    # peer (if join was successful), let's supply it directly as we know
-    # it using the "-o" option
-    set -x
-    fcn_call='{"function":"'${CC_INIT_FCN}'","Args":[]}'
-    infoln "invoke fcn call:${fcn_call}"
-    peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "$ORDERER_CA" -C $CHANNEL_NAME -n ${CC_NAME} "${PEER_CONN_PARMS[@]}" --isInit -c ${fcn_call} >&log.txt
-    res=$?
-    { set +x; } 2>/dev/null
-    cat log.txt
-    verifyResult $res "Invoke execution on $PEERS failed "
-    successln "Invoke transaction successful on $PEERS on channel '$CHANNEL_NAME'"
-  fi
+  # while 'peer chaincode' command can get the orderer endpoint from the
+  # peer (if join was successful), let's supply it directly as we know
+  # it using the "-o" option
+  set -x
+  fcn_call='{"function":"'${CC_INIT_FCN}'","Args":[]}'
+  infoln "invoke fcn call:${fcn_call}"
+  peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "$ORDERER_CA" -C $CHANNEL_NAME -n ${CC_NAME} "${PEER_CONN_PARMS[@]}" --isInit -c ${fcn_call} >&log.txt
+  res=$?
+  { set +x; } 2>/dev/null
+  cat log.txt
+  verifyResult $res "Invoke execution on $PEERS failed "
+  successln "Invoke transaction successful on $PEERS on channel '$CHANNEL_NAME'"
 }
 
 function chaincodeQuery() {
@@ -185,48 +162,4 @@ function chaincodeQuery() {
   else
     fatalln "After $MAX_RETRY attempts, Query result on peer0.org${ORG} is INVALID!"
   fi
-}
-
-
-function deploy(){
-  compile
-
-  ## package the chaincode
-  packageChaincode
-
-  ## Install chaincode on peer0.org1 and peer0.org2
-  infoln "Installing chaincode on peer0.org1..."
-  installChaincode 1
-  infoln "Install chaincode on peer0.org2..."
-  installChaincode 2
-
-  ## query whether the chaincode is installed
-  queryInstalled 1
-  queryInstalled 2
-
-  ## approve the definition for org1
-  approveForMyOrg 1
-
-  ## check whether the chaincode definition is ready to be committed
-  ## expect org1 to have approved and org2 not to
-  checkCommitReadiness 1 "\"Org1MSP\": true" "\"Org2MSP\": false"
-  checkCommitReadiness 2 "\"Org1MSP\": true" "\"Org2MSP\": false"
-
-  ## now approve also for org2
-  approveForMyOrg 2
-
-  ## check whether the chaincode definition is ready to be committed
-  ## expect them both to have approved
-  checkCommitReadiness 1 "\"Org1MSP\": true" "\"Org2MSP\": true"
-  checkCommitReadiness 2 "\"Org1MSP\": true" "\"Org2MSP\": true"
-
-  ## now that we know for sure both orgs have approved, commit the definition
-  commitChaincodeDefinition 1 2
-
-  ## query on both orgs to see that the definition committed successfully
-  queryCommitted 1
-  queryCommitted 2
-
-  chaincodeInvokeInit 1 2
-
 }

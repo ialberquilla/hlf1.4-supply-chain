@@ -11,7 +11,6 @@ docker container prune -f
 
 infoln "Removing Dirs...."
 removeDir "organizations"
-removeDir "crypto-config"
 removeDir "channel-artifacts"
 removeDir "wallet"
 removeDir "chaincode/go/chaincode-go/vendor"

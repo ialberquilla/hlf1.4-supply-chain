@@ -3,7 +3,6 @@ chaincode/go/chaincode-go/pkg
 node_modules
 supply-network/bin/
 supply-network/channel-artifacts/
-supply-network/crypto-config/
 supply-network/organizations/
 supply-network/log.txt
 supply-network/basic.tar.gz
