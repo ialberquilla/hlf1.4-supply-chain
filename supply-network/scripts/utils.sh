@@ -195,13 +195,18 @@ function waitForDirCreated(){
     done
 }
 
+
 function createDir(){
   [ ! -d $1 ] && mkdir -p $1 && successln "Directory $1 created." || warnln "Directory $1 Already exists"
 }
 
+function removeFile(){
+  [ -f $1 ] && rm -rf $1 && successln "File $1 removed." || warnln "File $1 Does not exists"
+}
+
 
 function removeDir(){
-  [ ! -d $1 ] && rm -rf $1 "Directory $1 removed." || warnln "Directory $1 Does not exists"
+  [ -d $1 ] && rm -rf $1 && successln "Directory $1 removed." || warnln "Directory $1 Does not exists"
 }
 
 function copyDir(){

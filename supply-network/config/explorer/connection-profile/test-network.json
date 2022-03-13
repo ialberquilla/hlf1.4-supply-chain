@@ -1,0 +1,87 @@
+{
+	"name": "test-network",
+	"version": "1.0.0",
+	"client": {
+		"tlsEnable": true,
+		"caCredential": {
+			"id": "admin",
+			"password": "adminpw"
+		},
+		"adminCredential": {
+			"id": "exploreradmin",
+			"password": "exploreradminpw"
+		},
+		"enableAuthentication": true,
+		"organization": "Org1MSP",
+		"connection": {
+			"timeout": {
+				"peer": {
+					"endorser": "300"
+				},
+				"orderer": "300"
+			}
+		}
+	},
+	"channels": {
+		"mychannel": {
+			"peers": {
+				"peer0.org1.example.com": {},
+				"peer0.org2.example.com": {}
+			}
+		}
+	},
+	"organizations": {
+		"Org1MSP": {
+			"mspid": "Org1MSP",
+			"adminPrivateKey": {
+			"path": "/tmp/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/key"
+			},
+			"peers": ["peer0.org1.example.com"],
+			"certificateAuthorities": ["ca0"]
+		},
+		"Org2MSP": {
+			"mspid": "Org1MSP",
+			"adminPrivateKey": {
+				"path": "/tmp/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/key"
+			},
+			"peers": ["peer0.org2.example.com"],
+			"certificateAuthorities": ["ca1"]
+		}
+	},
+	"peers": {
+		"peer0.org1.example.com": {
+			"tlsCACerts": {
+				"path": "/tmp/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+			},
+			"url": "grpcs://peer0.org1.example.com:7051"
+		},
+		"peer0.org2.example.com": {
+			"tlsCACerts": {
+				"path": "/tmp/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
+			},
+			"url": "grpcs://peer0.org2.example.com:9051"
+		}
+	},
+	"certificateAuthorities": {
+		"ca0": {
+			"url": "https://ca_org1:7054",
+			"httpOptions": {
+				"verify": false
+			},
+			"tlsCACerts": {
+				"path": "/tmp/crypto/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
+			},
+			"caName": "ca0-org1"
+		},
+		"ca1": {
+			"url": "https://ca_org2:8054",
+			"httpOptions": {
+				"verify": false
+			},
+			"tlsCACerts": {
+				"path": "/tmp/crypto/peerOrganizations/org2.example.com/ca/ca.org1.example.com-cert.pem"
+			},
+			"caName": "ca0-org2"
+		}
+	}
+}

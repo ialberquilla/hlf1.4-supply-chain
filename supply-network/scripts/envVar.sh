@@ -1,5 +1,10 @@
 #!/bin/bash
 . scripts/utils.sh
+# Environment variable set to fix a docker compose project name
+export COMPOSE_PROJECT_NAME="nft"
+export DOCKER_SOCK=/var/run/docker.sock
+export IMAGE_TAG=latest
+
 
 export CORE_PEER_TLS_ENABLED=true
 export ORDERER_CA=${PWD}/organizations/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem
@@ -8,6 +13,11 @@ export PEER0_ORG2_CA=${PWD}/organizations/peerOrganizations/org2.example.com/tls
 export PEER0_ORG3_CA=${PWD}/organizations/peerOrganizations/org3.example.com/tlsca/tlsca.org3.example.com-cert.pem
 export ORDERER_ADMIN_TLS_SIGN_CERT=${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
 export ORDERER_ADMIN_TLS_PRIVATE_KEY=${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.key
+
+#Hyperledger explorer environment variables (Used in docker compose file docker-compose-explorer.yaml)
+export EXPLORER_CONFIG_FILE_PATH=${PWD}/config/explorer/config.json
+export EXPLORER_PROFILE_DIR_PATH=${PWD}/config/explorer/connection-profile
+export FABRIC_CRYPTO_PATH=${PWD}/organizations
 
 # Set environment variables for the peer org
 setGlobals() {

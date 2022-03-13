@@ -2,6 +2,10 @@
 source scripts/envVar.sh
 source scripts/utils.sh
 
+export FABRIC_CFG_PATH=${PWD}/config
+export CHANNEL_NAME="mychannel"
+
+
 CHANNEL_NAME="$1"
 DELAY="$2"
 MAX_RETRY="$3"

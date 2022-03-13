@@ -1,11 +1,10 @@
 #!/bin/bash
 source scripts/envVar.sh
 source scripts/utils.sh
+# docker compose variables:
 # Chaincode variable definitions
-export DOCKER_SOCK=/var/run/docker.sock
-export IMAGE_TAG=latest
 export FABRIC_CFG_PATH=${PWD}/config
-declare CHANNEL_NAME="mychannel"
+export CHANNEL_NAME="mychannel"
 
 # Parse commandline args
 ## Parse mode
@@ -103,37 +102,23 @@ done
 
 
 if [ "$MODE" == "start" ]; then
-
-    createDir "organizations"
-    createDir "organizations/ordererOrganizations/example.com/msp"
-    copyDir "config/fabric-ca" "organizations"
-
-    docker compose -f ./compose/docker-compose-ca.yaml up -d
-    waitForFileCreated "organizations/fabric-ca/org1/tls-cert.pem"
-    infoln "Invoking registering and enroll scripts..."
-    source scripts/register-enroll.sh
-    infoln "Creating Org1 Identities"
-    createOrg1
-    infoln "Creating Org2 Identities"
-    createOrg2
-    infoln "Creating Orderer Organization"
-    createOrderer
-    infoln "Running Network Infrastructure"
-    docker compose -f ./compose/docker-compose-test-net.yaml up -d
-    infoln "Generating CCP files for Org1 and Org2"
-    ./scripts/ccp-generate.sh
-    infoln "Creating Channel"
-    ./scripts/createChannel.sh $CHANNEL_NAME
+    ./scripts/start.sh
 elif [ "$MODE" == "deployCC" ]; then
     infoln "Deploying chaincode"
     #example 
     #./network.sh deployCC -ccn erc1155 -ccp ../token-erc-1155/chaincode-go/ -ccl go
     ./scripts/deployCC.sh $CHANNEL_NAME $CC_NAME $CC_SRC_PATH $CC_SRC_LANGUAGE $CC_VERSION $CC_SEQUENCE $CC_INIT_FCN $CC_END_POLICY $CC_COLL_CONFIG $CLI_DELAY $MAX_RETRY $VERBOSE
+    #./network.sh deployCC -ccn basic -ccp ../chaincode/token-erc-20/chaincode-go -ccl go
 elif [ "$MODE" == "stop" ]; then
     ./scripts/stop.sh
+elif [ "$MODE" == "restart" ]; then
+    ./scripts/stop.sh
+    ./scripts/start.sh
 elif [ "$MODE" == "install" ]; then
     cd ./chaincode
     npm install
     cd ..
     npm install
+else
+    printHelp
 fi

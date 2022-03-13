@@ -1,24 +1,30 @@
-#!/bin/bash
-export IMAGE_TAG=latest
+source scripts/utils.sh
+infoln "***********************************"
+infoln "       Starting network            "
+infoln "***********************************"
 
-echo "Creating containers... "
+createDir "organizations"
+createDir "organizations/ordererOrganizations/example.com/msp"
+copyDir "config/fabric-ca" "organizations"
 
-# TODO This approach is hacky; instead, identify where hyperledger/fabric-ccenv is pulled and update the tag to 1.4.3
-docker pull hyperledger/fabric-ccenv:1.4.3
-#docker pull hyperledger/fabric-ccenv:2.4
-#docker tag hyperledger/fabric-ccenv:1.4.3 hyperledger/fabric-ccenv:latest
-
-docker-compose -f ./supply-network/docker-compose-cli.yaml up -d
-echo 
-echo "Containers started" 
-echo 
-docker ps
-
-docker exec -it cli ./scripts/channel/createChannel.sh
-
-echo "Joining Deliverer to channel..."
-docker exec -it cli ./scripts/channel/join-peer.sh peer0 deliverer DelivererMSP 10051 1.0
-echo "Joining Manufacturer to channel..."
-docker exec -it cli ./scripts/channel/join-peer.sh peer0 manufacturer ManufacturerMSP 9051 1.0
-echo "Joining Retailer to channel..." 
-docker exec -it cli ./scripts/channel/join-peer.sh peer0 retailer RetailerMSP 11051 1.0
+docker compose -f ./compose/docker-compose-ca.yaml up -d
+waitForFileCreated "organizations/fabric-ca/org1/tls-cert.pem"
+infoln "Invoking registering and enroll scripts..."
+source scripts/register-enroll.sh
+infoln "Creating Org1 Identities"
+createOrg1
+infoln "Creating Org2 Identities"
+createOrg2
+infoln "Creating Orderer Organization"
+createOrderer
+infoln "Running Network Infrastructure"
+docker compose -f ./compose/docker-compose-test-net.yaml up -d
+infoln "Generating CCP files for Org1 and Org2"
+./scripts/ccp-generate.sh
+infoln "Creating Channel"
+./scripts/createChannel.sh $CHANNEL_NAME
+infoln "Running Hyperledger explorer"
+#This command will rename all keystores present in the peers folder
+infoln "Running Hyperledger explorer"
+for file in $(ls -R ./organizations/peerOrganizations/ | grep keystore: | cut -d':' -f 1  | sed 's/$//'); do mv $file/* $file/key; done
+docker compose -f ./compose/docker-compose-explorer.yaml up -d

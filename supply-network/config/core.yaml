@@ -16,7 +16,7 @@ peer:
 
     # The networkId allows for logical separation of networks and is used when
     # naming docker resources.
-    networkId: byfn
+    networkId: test
 
     # The Address at local network interface this Peer will listen on.
     # By default, it will listen on all network interfaces
@@ -351,7 +351,7 @@ peer:
     # to match the name of one of the MSPs in each of the channel
     # that this peer is a member of. Otherwise this peer's messages
     # will not be identified as valid by other nodes.
-    localMspId: SampleOrg
+    localMspId: example.com
 
     # CLI common client config options
     client:

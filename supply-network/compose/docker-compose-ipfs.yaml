@@ -1,0 +1,30 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '3.7'
+
+volumes:
+  ipfs-staging-node0.org1.example.com:
+  ipfs-node0.org1.example.com:
+
+networks:
+  test:
+    name: fabric_test
+
+services:
+  ipfs-node0:
+    container_name: ipfs-node0
+    image: ipfs/go-ipfs:latest
+    labels:
+      service: ipfs-node0
+    volumes:
+      - ipfs-staging-node0.org1.example.com:/export
+      - ipfs-node0.org1.example.com:/data/ipfs
+    ports:
+      - 7080:8080
+      - 7001:4001
+      - 7005:5001
+    networks:
+      - test
