@@ -312,3 +312,5 @@ curl --request GET \
 ```
  sed -i -e 's/\r$//' network.sh
 ```
+
+./network.sh deployCC -ccn basic -ccp ../chaincode/token-erc-20/chaincode-go -ccl go
