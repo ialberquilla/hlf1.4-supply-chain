@@ -1,11 +1,6 @@
 #!/bin/bash
-source scripts/envVar.sh
 source scripts/utils.sh
-# docker compose variables:
-# Chaincode variable definitions
-export FABRIC_CFG_PATH=${PWD}/config
-export CHANNEL_NAME="mychannel"
-
+source scripts/envVar.sh
 # Parse commandline args
 ## Parse mode
 if [[ $# -lt 1 ]] ; then

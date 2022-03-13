@@ -1,9 +1,5 @@
 #!/bin/bash
-source scripts/envVar.sh
-source scripts/utils.sh
-
-export FABRIC_CFG_PATH=${PWD}/config
-export CHANNEL_NAME="mychannel"
+source ./scripts/utils.sh
 
 
 CHANNEL_NAME="$1"
@@ -19,7 +15,7 @@ if [ ! -d "channel-artifacts" ]; then
 	mkdir channel-artifacts
 fi
 
-createChannelGenesisBlock() {
+function createChannelGenesisBlock() {
 	which configtxgen
 	if [ "$?" -ne 0 ]; then
 		fatalln "configtxgen tool not found."
@@ -31,7 +27,7 @@ createChannelGenesisBlock() {
   verifyResult $res "Failed to generate channel configuration transaction..."
 }
 
-createChannel() {
+function createChannel() {
 	setGlobals 1
 	# Poll in case the raft leader is not set yet
 	local rc=1
@@ -50,8 +46,7 @@ createChannel() {
 }
 
 # joinChannel ORG
-joinChannel() {
-  FABRIC_CFG_PATH=$PWD/config/
+function joinChannel() {
   ORG=$1
   setGlobals $ORG
 	local rc=1
@@ -70,11 +65,10 @@ joinChannel() {
 	verifyResult $res "After $MAX_RETRY attempts, peer0.org${ORG} has failed to join channel '$CHANNEL_NAME' "
 }
 
-setAnchorPeer() {
+function setAnchorPeer() {
   ORG=$1
   docker exec cli ./scripts/setAnchorPeer.sh $ORG $CHANNEL_NAME 
 }
-export FABRIC_CFG_PATH=$(pwd)/config
 
 ## Create channel genesis block
 infoln "Generating channel genesis block '${CHANNEL_NAME}.block'"
@@ -84,7 +78,7 @@ infoln "Done."
 BLOCKFILE="./channel-artifacts/${CHANNEL_NAME}.block"
 
 ## Create channel
-infoln "Creating channel ${CHANNEL_NAME}". scripts/envVar.sh
+infoln "Creating channel ${CHANNEL_NAME}"
 createChannel
 successln "Channel '$CHANNEL_NAME' created"
 

@@ -4,10 +4,12 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
+source ./scripts/utils.sh
+source ./scripts/configUpdate.sh
 
-# import utils
-. scripts/envVar.sh
-. scripts/configUpdate.sh
+export ORDERER_CA=${PWD}/organizations/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem
+export ORDERER_ADMIN_TLS_SIGN_CERT=${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
+export ORDERER_ADMIN_TLS_PRIVATE_KEY=${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.key
 
 
 # NOTE: this must be run in a CLI container since it requires jq and configtxlator 
@@ -51,9 +53,9 @@ updateAnchorPeer() {
 
 ORG=$1
 CHANNEL_NAME=$2
-
+infoln "Setting globals..."
 setGlobalsCLI $ORG
-
+infoln "Calling createAnchorPeerUpdate..."
 createAnchorPeerUpdate 
-
+infoln "Calling updateAnchorPeer..."
 updateAnchorPeer 

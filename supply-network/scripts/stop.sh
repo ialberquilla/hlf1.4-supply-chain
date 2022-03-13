@@ -4,7 +4,12 @@ infoln "***********************************"
 infoln "       Stopping network            "
 infoln "***********************************"
 infoln "Removing docker containers..."
-docker compose -f ./compose/docker-compose-ca.yaml -f ./compose/docker-compose-test-net.yaml -f ./compose/docker-compose-explorer.yaml down --remove-orphans
+docker compose \
+    -f ./compose/docker-compose-ca.yaml  \
+    -f ./compose/docker-compose-test-net.yaml \
+    -f ./compose/docker-compose-explorer.yaml \
+    -f ./compose/docker-compose-ipfs.yaml \
+    down --remove-orphans
 docker network prune -f
 docker volume prune -f
 docker container prune -f

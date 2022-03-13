@@ -1,4 +1,6 @@
-source scripts/utils.sh
+#!/bin/bash
+source ./scripts/utils.sh
+
 infoln "***********************************"
 infoln "       Starting network            "
 infoln "***********************************"
@@ -25,6 +27,7 @@ infoln "Creating Channel"
 ./scripts/createChannel.sh $CHANNEL_NAME
 infoln "Running Hyperledger explorer"
 #This command will rename all keystores present in the peers folder
-infoln "Running Hyperledger explorer"
 for file in $(ls -R ./organizations/peerOrganizations/ | grep keystore: | cut -d':' -f 1  | sed 's/$//'); do mv $file/* $file/key; done
 docker compose -f ./compose/docker-compose-explorer.yaml up -d
+infoln "Running IPFS Servers"
+docker compose -f ./compose/docker-compose-ipfs.yaml up -d
