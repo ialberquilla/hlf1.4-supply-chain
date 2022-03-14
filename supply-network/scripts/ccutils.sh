@@ -1,5 +1,5 @@
 #!/bin/bash
-
+echo "CCUTI:S File imported"
 
 # installChaincode PEER ORG
 function installChaincode() {

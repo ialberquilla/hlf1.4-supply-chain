@@ -1,6 +1,9 @@
 #!/bin/bash
 
+# import utils
 source scripts/utils.sh
+source scripts/envVar.sh
+source scripts/ccutils.sh
 
 CHANNEL_NAME=${1:-"mychannel"}
 CC_NAME=${2}
@@ -105,11 +108,9 @@ else
   CC_COLL_CONFIG="--collections-config $CC_COLL_CONFIG"
 fi
 
-# import utils
-. scripts/envVar.sh
-. scripts/ccutils.sh
 
-packageChaincode() {
+
+function packageChaincode() {
   set -x
   peer lifecycle chaincode package ${CC_NAME}.tar.gz --path ${CC_SRC_PATH} --lang ${CC_RUNTIME_LANGUAGE} --label ${CC_NAME}_${CC_VERSION} >&log.txt
   res=$?
