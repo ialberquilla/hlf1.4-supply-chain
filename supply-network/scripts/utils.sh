@@ -199,6 +199,11 @@ function createDir(){
   [ ! -d $1 ] && mkdir -p $1 && successln "Directory $1 created." || warnln "Directory $1 Already exists"
 }
 
+function removeFiles(){
+  find $1  && rm -rf $1 && successln "Files $1 removed." || warnln "Files $1 Do not exists"
+}
+
+
 function removeFile(){
   [ -f $1 ] && rm -rf $1 && successln "File $1 removed." || warnln "File $1 Does not exists"
 }
@@ -241,10 +246,7 @@ function setGlobals() {
   else
     errorln "ORG Unknown"
   fi
-
-  if [ "$VERBOSE" == "true" ]; then
-    env | grep CORE
-  fi
+  env | grep CORE
 }
 
 # Set environment variables for use in the CLI container

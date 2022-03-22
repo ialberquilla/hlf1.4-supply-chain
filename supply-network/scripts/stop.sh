@@ -1,11 +1,12 @@
 #!/bin/bash
+source scripts/envVar.sh
 source scripts/utils.sh
 infoln "***********************************"
 infoln "       Stopping network            "
 infoln "***********************************"
 infoln "Removing docker containers..."
 docker compose \
-    -f ./compose/docker-compose-ca.yaml  \
+    -f ./compose/docker-compose-ca.yaml \
     -f ./compose/docker-compose-test-net.yaml \
     -f ./compose/docker-compose-explorer.yaml \
     -f ./compose/docker-compose-ipfs.yaml \
@@ -16,7 +17,7 @@ docker container prune -f
 
 infoln "Removing Dirs...."
 removeFile "log.txt"
-removeFile "*.gz"
+removeFiles "*.gz"
 removeDir "organizations"
 removeDir "channel-artifacts"
 removeDir "wallet"
