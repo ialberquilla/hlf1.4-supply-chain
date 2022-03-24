@@ -12,11 +12,12 @@ CC_SRC_LANGUAGE=${4}
 CC_VERSION=${5:-"1.0"}
 CC_SEQUENCE=${6:-"1"}
 CC_INIT_FCN=${7:-"NA"}
-CC_END_POLICY=${8:-"NA"}
-CC_COLL_CONFIG=${9:-"NA"}
-DELAY=${10:-"3"}
-MAX_RETRY=${11:-"5"}
-VERBOSE=${12:-"false"}
+CC_INVK_FCN=${8:-"NA"}
+CC_END_POLICY=${9:-"NA"}
+CC_COLL_CONFIG=${10:-"NA"}
+DELAY=${11:-"3"}
+MAX_RETRY=${12:-"5"}
+VERBOSE=${13:-"false"}
 
 println "executing with the following"
 println "- CHANNEL_NAME: ${C_GREEN}${CHANNEL_NAME}${C_RESET}"
@@ -28,6 +29,7 @@ println "- CC_SEQUENCE: ${C_GREEN}${CC_SEQUENCE}${C_RESET}"
 println "- CC_END_POLICY: ${C_GREEN}${CC_END_POLICY}${C_RESET}"
 println "- CC_COLL_CONFIG: ${C_GREEN}${CC_COLL_CONFIG}${C_RESET}"
 println "- CC_INIT_FCN: ${C_GREEN}${CC_INIT_FCN}${C_RESET}"
+println "- CC_INVK_FCN: ${C_GREEN}${CC_INVK_FCN}${C_RESET}"
 println "- DELAY: ${C_GREEN}${DELAY}${C_RESET}"
 println "- MAX_RETRY: ${C_GREEN}${MAX_RETRY}${C_RESET}"
 println "- VERBOSE: ${C_GREEN}${VERBOSE}${C_RESET}"
@@ -46,7 +48,7 @@ elif [ -z "$CC_SRC_LANGUAGE" ] || [ "$CC_SRC_LANGUAGE" = "NA" ]; then
 
 ## Make sure that the path to the chaincode exists
 elif [ ! -d "$CC_SRC_PATH" ] && [ ! -f "$CC_SRC_PATH" ]; then
-  fatalln "dfghPath to chaincode does not exist. Please provide different path."
+  fatalln "Path to chaincode does not exist. Please provide different path."
 fi
 
 CC_SRC_LANGUAGE=$(echo "$CC_SRC_LANGUAGE" | tr [:upper:] [:lower:])

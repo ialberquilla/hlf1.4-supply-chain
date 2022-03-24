@@ -12,7 +12,7 @@ volumes:
 
 networks:
   test:
-    name: fabric_test
+    name: ${COMPOSE_NETWORK_NAME}
 
 services:
   orderer.example.com:
@@ -63,6 +63,7 @@ services:
     labels:
       service: hyperledger-fabric
     environment:
+      #- Fabric Env Vars
       - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
       - FABRIC_LOGGING_SPEC=INFO
       #- FABRIC_LOGGING_SPEC=DEBUG
@@ -87,7 +88,7 @@ services:
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
       #Generic peer variables
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric_test
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_NETWORK_NAME}
     volumes:
         - ../organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com:/etc/hyperledger/fabric
         - peer0.org1.example.com:/var/hyperledger/production
@@ -107,6 +108,7 @@ services:
     labels:
       service: hyperledger-fabric
     environment:
+      #- Fabric Env Vars
       - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
       - FABRIC_LOGGING_SPEC=INFO
       #- FABRIC_LOGGING_SPEC=DEBUG
@@ -131,7 +133,7 @@ services:
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
       #Generic peer variables
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric_test
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_NETWORK_NAME}
     volumes:
       - ../organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com:/etc/hyperledger/fabric
       - peer0.org2.example.com:/var/hyperledger/production

@@ -6,6 +6,7 @@ export CHANNEL_NAME="mychannel"
 # docker compose variables:
 export COMPOSE_PROJECT_NAME="nft"
 export COMPOSE_NETWORK_NAME="fabric_nft"
+export COMPOSE_ORG_NAME="datasets.com"
 export DOCKER_SOCK=/var/run/docker.sock
 export IMAGE_TAG=latest
 

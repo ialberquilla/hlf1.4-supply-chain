@@ -313,4 +313,8 @@ curl --request GET \
  sed -i -e 's/\r$//' network.sh
 ```
 
-./network.sh deployCC -ccn erc20 -ccp ../chaincode/token-erc-20/chaincode-go -ccl go
+./network.sh deployCC -ccn erc721 -ccp ../chaincode/token-erc-721/chaincode-go -ccl go
+peer lifecycle chaincode querycommitted --channelID mychannel --name erc721
+
+# ReactJS
+npx create-react-app react-nft-app

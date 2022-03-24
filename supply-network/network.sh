@@ -79,6 +79,10 @@ while [[ $# -ge 1 ]] ; do
         CC_INIT_FCN="$2"
         shift
         ;;
+    -ccf )
+        CC_INVK_FCN="$2"
+        shift
+        ;;
     -ccaasdocker )
         CCAAS_DOCKER_RUN="$2"
         shift
@@ -98,11 +102,12 @@ done
 
 if [ "$MODE" == "start" ]; then
     ./scripts/start.sh
+    ./scripts/deployCC.sh $CHANNEL_NAME "erc721" "../chaincode/token-erc-721/chaincode-javascript" "javascript"
 elif [ "$MODE" == "deployCC" ]; then
     infoln "Deploying chaincode"
     #example 
     #./network.sh deployCC -ccn erc1155 -ccp ../token-erc-1155/chaincode-go/ -ccl go
-    ./scripts/deployCC.sh $CHANNEL_NAME $CC_NAME $CC_SRC_PATH $CC_SRC_LANGUAGE $CC_VERSION $CC_SEQUENCE $CC_INIT_FCN $CC_END_POLICY $CC_COLL_CONFIG $CLI_DELAY $MAX_RETRY $VERBOSE
+    ./scripts/deployCC.sh $CHANNEL_NAME $CC_NAME $CC_SRC_PATH $CC_SRC_LANGUAGE $CC_VERSION $CC_SEQUENCE $CC_INIT_FCN $CC_INVK_FCN $CC_END_POLICY $CC_COLL_CONFIG $CLI_DELAY $MAX_RETRY $VERBOSE
     #./network.sh deployCC -ccn basic -ccp ../chaincode/token-erc-20/chaincode-go -ccl go
 elif [ "$MODE" == "stop" ]; then
     ./scripts/stop.sh

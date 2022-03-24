@@ -8,7 +8,7 @@ volumes:
 
 networks:
   test:
-    name: fabric_test
+    name: ${COMPOSE_NETWORK_NAME}
 
 services:
 

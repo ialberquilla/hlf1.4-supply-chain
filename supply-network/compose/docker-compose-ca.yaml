@@ -7,7 +7,7 @@ version: '3.7'
 
 networks:
   test:
-    name: fabric_test
+    name: ${COMPOSE_NETWORK_NAME}
 
 services:
 
