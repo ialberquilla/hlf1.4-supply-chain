@@ -1,82 +1,25 @@
 import express from 'express';
-import * as faker from 'faker';
-import {WalletQuery, WalletParams} from './query.interface';
-import WalletService from '../services/wallet.service';
-import {Wallet, Wallets} from '../services/wallet.interface'
-import internal from 'stream';
+var _ = require('underscore');
+import walletHandler from '../handlers/wallet.handler';
+class WalletRouter {
+  router: express.Router;
+  wh: walletHandler;
+  constructor() {
+    this.router = express.Router();
+    this.wh = new walletHandler();
+    _.bindAll(this.wh, Object.getOwnPropertyNames(Object.getPrototypeOf(this.wh)));
 
-const router = express.Router();
-let ws = new WalletService();
+    this.router.get('/', this.wh.getRootHandler);
 
-router.get('/', (request, response) => {
-  const {size} = request.query;
-  const limit = size || 100;
-  response.status(200).json({
-    total : limit,
-    wallets : ws.generate()
-  });
-});
+    this.router.get('/:id', this.wh.getByIdHandler);
 
-router.get('/filter', (request, response) => {
-  response.send("filter");
-});
-router.get('/:id', (request, response) => {
-  const { id } = request.params;
-  response.json(
-      {
-        id,
-        name: "MyWallet",
-        channel: "Channel1",
-        orgs:[
-        "org1",
-        "org2"
-        ]
-      }
-  );
-});
+    this.router.get('/:id/enroll', this.wh.getEnrollHandler);
 
-function getHandler(request: express.Request<WalletParams,{},{},WalletQuery>, response: express.Response){
-    const id = request.params.id;
-    const {query} = request;
-    query.channel
-    if( !query.channel ){
-      query.channel = 1;
-    }
-    if( !query.delay){
-      query.delay = 0;
-    }
-    response.send(`enrolling wallet with id ${id} ....${query.channel} ${query.delay}`);
+    this.router.post("/create", this.wh.postCreateHandler);
+
+    this.router.patch("/:id", this.wh.postCreateHandler);
+
+    this.router.delete("/:id", this.wh.deleteWalletHandler);
+  }
 }
-
-router.get('/:id/enroll',getHandler);
-
-
-router.post("/create", (request, response) => {
-   const body = request.body;
-   console.log(body);
-   console.log(request.ip);
-   response.json({
-     message : "created",
-     data: body
-   });
-});
-
-router.patch("/:id", (request, response) => {
-  const body = request.body;
-  console.log(body);
-  response.json({
-    message: "updated",
-    data:body
-  });
-});
-
-
-router.delete("/:id", (request, response) => {
-  const body = request.body;
-  console.log(body);
-  response.json({
-    message: "deleted",
-  });
-});
-
-export default router;
+export default WalletRouter;

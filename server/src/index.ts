@@ -1,5 +1,6 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
+import * as ip from 'ip';
 import routerApi  from './routes/routerApi';
 const app = express();
 
@@ -22,7 +23,8 @@ app.get('/', (request: express.Request, response: express.Response) => {
 });
 
 app.listen(port, () => {
-  console.log(`Application is listening on port: ${port}`);
+  const ip_address:string = ip.address();
+  console.log(`Application is listening on port: http://${ip_address}:${port}`);
 });
 
 routerApi(app);
