@@ -1,12 +1,12 @@
 import express from 'express';
-import WalletRouter from './wallet.router';
+import HyperledgerRouter from './hyperledger.router';
 
-function routerApi(app: express.Express){
+function routerApi(app: express.Express, rootApi: string){
   const router = express.Router();
-  const walletRouter = new WalletRouter();
+  const hyperledgerRouter = new HyperledgerRouter();
   app.use(express.json());
-  app.use('/api/v1', router);
-  router.use('/wallet', walletRouter.router);
+  app.use(rootApi, router);
+  router.use('/hyp', hyperledgerRouter.router);
 }
 
 export default routerApi;
