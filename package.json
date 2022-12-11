@@ -18,7 +18,7 @@
     "license": "Apache-2.0",
     "dependencies": {
         "arraybuffer-to-string": "^1.0.2",
-        "express": "^4.17.1",
+        "express": "^4.17.3",
         "fabric-ca-client": "~1.4.0",
         "fabric-client": "^1.4.4",
         "fabric-network": "~1.4.0"
